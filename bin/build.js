@@ -132,8 +132,8 @@ async function build() {
     const blockFile = path.resolve(blockWorkingDir, './index.js');
     console.log(`Block: file = ${blockFile}`);
     let blockCode = fs.readFileSync(blockFile, 'utf-8');
-    blockCode = blockCode.replace(/^const (\w+)\s*=\s*require\(([^\s]+)\);/gm, 'import $1 from $2;');
-    blockCode = blockCode.replace(/^\s*module\.exports\s*=([^;]+);/gm, 'export {$1 as blockClass};');
+    blockCode = blockCode.replace(/(?:var|let|const)?\s*([^\s]+)?(\s*=\s*)?require\s*\(['"](.+)['"]\)[;,]?/gm, 'import $1 from \'$3\';');
+    blockCode = blockCode.replace(/^\s*module\.exports\s*=\s*([^;]+);/gm, 'export {$1 as blockClass};');
     fs.writeFileSync(blockFile, blockCode);
 
     // Replace URL in entry and block code.
