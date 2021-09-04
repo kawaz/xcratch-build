@@ -88,10 +88,10 @@ const rollupOptions = {
         plugins: [
             multi(),
             importImage(),
-            nodeResolve({browser: true, preferBuiltins: true}),
-            nodeBuiltins(),
-            nodeGlobals(),
             commonjs(),
+            nodeGlobals(),
+            nodeBuiltins(),
+            nodeResolve({browser: true, preferBuiltins: true}),
             babel({
                 babelrc: false,
                 presets: [
@@ -132,8 +132,8 @@ async function build() {
     const blockFile = path.resolve(blockWorkingDir, './index.js');
     console.log(`Block: file = ${blockFile}`);
     let blockCode = fs.readFileSync(blockFile, 'utf-8');
-    blockCode = blockCode.replace(/(?:var|let|const)?\s*([^\s]+)?(\s*=\s*)?require\s*\(['"](.+)['"]\)[;,]?/gm, 'import $1 from \'$3\';');
-    blockCode = blockCode.replace(/^\s*module\.exports\s*=\s*([^;]+);/gm, 'export {$1 as blockClass};');
+    // blockCode = blockCode.replace(/(?:var|let|const)?\s*([^\s]+)?(\s*=\s*)?require\s*\(['"](.+)['"]\)[;,]?/gm, 'import $1 from \'$3\';');
+    blockCode = blockCode.replace(/^\s*module\.exports\s*=\s*([^;]+);/gm, 'exports.blockClass = $1;');
     fs.writeFileSync(blockFile, blockCode);
 
     // Replace URL in entry and block code.
