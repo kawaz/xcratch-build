@@ -30,12 +30,12 @@ const optionDefinitions = [
     {
         name: 'block',
         type: String,
-        defaultValue: path.resolve(process.cwd(), './src/block')
+        defaultValue: path.resolve(process.cwd(), './src/vm/extensions/block')
     },
     {
         name: 'entry',
         type: String,
-        defaultValue: path.resolve(process.cwd(), './src/entry')
+        defaultValue: path.resolve(process.cwd(), './src/gui/lib/libraries/extensions/entry')
     },
     {
         name: 'vm',
