@@ -4,7 +4,7 @@
 /**
  * Build a module from the code using a local Scratch
  */
-
+const projectJson = require('../package.json');
 const path = require('path');
 const fs = require('fs-extra');
 const commandLineArgs = require('command-line-args');
@@ -19,6 +19,11 @@ const multi = require('@rollup/plugin-multi-entry');
 const json = require('@rollup/plugin-json');
 
 const optionDefinitions = [
+    {
+        name: 'version',
+        alias: 'V',
+        type: Boolean
+    },
     {
         name: 'module',
         type: String
@@ -59,6 +64,10 @@ const optionDefinitions = [
 
 // Read options
 const options = commandLineArgs(optionDefinitions);
+if (options['version']) {
+    process.stdout.write(`v${projectJson.version}\n`);
+    process.exit(0);
+}
 if (!options['module']) {
     throw('set --module <module name>');
 }
