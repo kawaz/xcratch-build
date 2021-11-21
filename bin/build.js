@@ -119,9 +119,11 @@ const rollupOptions = {
                     ],
                     '@babel/preset-react'
                 ],
-                babelHelpers: 'bundled',
+                babelHelpers: 'runtime',
                 plugins: [
-                    '@babel/plugin-transform-react-jsx'
+                    '@babel/plugin-transform-react-jsx',
+                    ["@babel/plugin-transform-runtime",
+                        { "regenerator": true }]
                 ]
             }),
         ]
