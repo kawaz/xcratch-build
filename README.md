@@ -25,6 +25,7 @@ This command accepts these command-line arguments.
 - --vm : location of scratch-vm form current dir (optional, default: "gui/node_modules/scratch-vm")
 - --url : URL to get its module as a loadable extension for Xcratch (optional)
 - --output : location to save module form current dir (optional, default: "./dist")
+- --moduleDirectories : additional module directories (multiple, optional)
 
 
 ## 🤝 Contributing

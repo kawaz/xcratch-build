@@ -57,6 +57,12 @@ const optionDefinitions = [
         defaultValue: path.resolve(process.cwd(), './dist')
     },
     {
+        name: 'moduleDirectories',
+        type:String,
+        multiple: true,
+        defaultValue: []
+    },
+    {
         name: 'debug',
         type:Boolean
     }
@@ -101,7 +107,16 @@ const rollupOptions = {
             commonjs(),
             nodeGlobals(),
             nodePolifills(),
-            nodeResolve({browser: true, preferBuiltins: true}),
+            nodeResolve({
+                browser: true, 
+                preferBuiltins: true, 
+                moduleDirectories: [
+                    ...options['moduleDirectories'],
+                    path.resolve(process.cwd(), './node_modules'),
+                    path.resolve(__dirname, '../node_modules'),
+                    'node_modules'
+                ]
+            }),
             json(),
             babel({
                 babelrc: false,
