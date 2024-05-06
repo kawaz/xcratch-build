@@ -107,10 +107,10 @@ if (options['sourceMap'] === 'true') {
     sourceMap = false;
 }
 
-const blockWorkingDir = path.resolve(VmRoot, `src/extensions/_${moduleName}`);
+const blockWorkingDir = extSrcDir;
 const blockFile = path.resolve(blockWorkingDir, 'index.js');
 
-const entryWorkingDir = path.resolve(GuiRoot, `src/lib/libraries/extensions/_${moduleName}`);
+const entryWorkingDir = entrySrcDir;
 const entryFile = path.resolve(entryWorkingDir, 'index.jsx');
 
 const moduleFile = path.resolve(outputDir, `${moduleName}.mjs`);
@@ -127,10 +127,12 @@ const rollupOptions = {
             nodeResolve({
                 browser: true, 
                 preferBuiltins: true, 
-                moduleDirectories: [
-                    ...options['moduleDirectories'],
+                modulePaths: [
                     path.resolve(process.cwd(), './node_modules'),
                     path.resolve(__dirname, '../node_modules'),
+                ],
+                moduleDirectories: [
+                    ...options['moduleDirectories'],
                     'node_modules'
                 ]
             }),
@@ -188,11 +190,11 @@ if (options['watch']) {
 
 async function build() {
     // Copy module sources
-    fs.copySync(extSrcDir, blockWorkingDir);
-    fs.copySync(entrySrcDir, entryWorkingDir);
-    console.log('\ncopy source to working dir');
-    console.log(blockWorkingDir);
-    console.log(entryWorkingDir);
+    // fs.copySync(extSrcDir, blockWorkingDir);
+    // fs.copySync(entrySrcDir, entryWorkingDir);
+    // console.log('\ncopy source to working dir');
+    // console.log(blockWorkingDir);
+    // console.log(entryWorkingDir);
 
     const blockFile = path.resolve(blockWorkingDir, './index.js');
     console.log(`Block: file = ${blockFile}`);
@@ -244,9 +246,9 @@ async function build() {
     console.log(`\nsuccess to build module: ${moduleFile}`);
 
     // Clean up
-    fs.removeSync(blockWorkingDir);
-    fs.removeSync(entryWorkingDir);
-    console.log('\nworking dir removed');
+    // fs.removeSync(blockWorkingDir);
+    // fs.removeSync(entryWorkingDir);
+    // console.log('\nworking dir removed');
 }
 
 try {
