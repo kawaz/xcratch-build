@@ -17,6 +17,7 @@ const nodePolifills = require('rollup-plugin-polyfill-node');
 const importImage = require('@rollup/plugin-image');
 const multi = require('@rollup/plugin-multi-entry');
 const json = require('@rollup/plugin-json');
+const sourcemaps = require('rollup-plugin-sourcemaps');
 
 const optionDefinitions = [
     {
@@ -65,6 +66,11 @@ const optionDefinitions = [
     {
         name: 'debug',
         type:Boolean
+    },
+    {
+        name: 'sourceMap',
+        type:String,
+        defaultValue: 'false'
     }
 ];
 
@@ -89,6 +95,12 @@ console.log(`vm = ${VmRoot}`);
 const outputDir = path.resolve(process.cwd(), options['output']);
 console.log(`output = ${outputDir}`);
 fs.emptyDirSync(outputDir);
+let sourceMap = options['sourceMap'];
+if (options['sourceMap'] === 'true') {
+    sourceMap = true;
+} else if (options['sourceMap'] === 'false') {
+    sourceMap = false;
+}
 
 const blockWorkingDir = path.resolve(VmRoot, `src/extensions/_${moduleName}`);
 const blockFile = path.resolve(blockWorkingDir, 'index.js');
@@ -118,6 +130,7 @@ const rollupOptions = {
                 ]
             }),
             json(),
+            sourcemaps(),
             babel({
                 babelrc: false,
                 presets: [
@@ -139,13 +152,17 @@ const rollupOptions = {
                     '@babel/plugin-transform-react-jsx',
                     ["@babel/plugin-transform-runtime",
                         { "regenerator": true }]
-                ]
+                ],
+                inputSourceMap: false,
             }),
         ]
     },
     outputOptions: {
         file: moduleFile,
         format: 'es',
+        sourcemap: sourceMap,
+    }
+}
     }
 }
 
