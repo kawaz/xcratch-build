@@ -71,6 +71,11 @@ const optionDefinitions = [
         name: 'sourceMap',
         type:String,
         defaultValue: 'false'
+    },
+    {
+        name: 'watch',
+        type:Boolean,
+        defaultValue: false
     }
 ];
 
@@ -163,6 +168,21 @@ const rollupOptions = {
         sourcemap: sourceMap,
     }
 }
+
+if (options['watch']) {
+    rollupOptions.inputOptions.watch = {
+        include: [
+            entryFile,
+            blockFile
+        ],
+        exclude: [
+            path.resolve(process.cwd(), './node_modules/**'),
+            path.resolve(process.cwd(), '../scratch-gui/node_modules/**'),
+            path.resolve(process.cwd(), '../scratch-vm/node_modules/**'),
+        ],
+        chokidar: {
+            usePolling: true
+        },
     }
 }
 
@@ -234,3 +254,46 @@ try {
 } catch (err) {
     console.error(err)
 }
+
+if (!options['watch']) {
+    return;
+}
+
+const watchOptions = {
+    ...rollupOptions.inputOptions,
+    output: rollupOptions.outputOptions,
+    watch: {
+        include: [
+            entryFile,
+            blockFile
+        ],
+        exclude: [
+            path.resolve(process.cwd(), './node_modules/**'),
+            path.resolve(process.cwd(), '../scratch-gui/node_modules/**'),
+            path.resolve(process.cwd(), '../scratch-vm/node_modules/**'),
+        ],
+        chokidar: {
+            usePolling: true
+        },
+    }
+}
+let startBundleTime = 0;
+const watcher = rollup.watch(watchOptions);
+watcher.on('event', event => {
+    switch (event.code) {
+        case 'START':
+            startBundleTime = Date.now();
+            break;
+        case 'BUNDLE_START':
+            console.log(`bundles ${event.input} → ${Array.isArray(event.output) ? event.output.join(',') : event.output}`);
+            break;
+        case 'BUNDLE_END':
+            console.log(`created ${Array.isArray(event.output) ? event.output.join(',') : event.output} in ${Date.now() - startBundleTime}ms`);
+            break;
+        case 'END':
+            console.log('waiting for changes');
+            break;
+        default:
+            break;
+    }
+});
