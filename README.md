@@ -1,3 +1,6 @@
+> :warning: **Development of this tool has been terminated.**
+Projects created with the latest [xcratch-create](https://github.com/xcratch/xcratch-create) do not need this tool.
+
 # Xcratch Command to Build Extension Module
 This command supports to build a module file of an extension for [Xcratch: Extendable Scratch3 Programming Environment](https://xcratch.github.io/).
 
