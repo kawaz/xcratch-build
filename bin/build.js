@@ -179,8 +179,8 @@ if (options['watch']) {
         ],
         exclude: [
             path.resolve('./node_modules/**'),
-            path.resolve('../scratch-gui/node_modules/**'),
-            path.resolve('../scratch-vm/node_modules/**'),
+            path.resolve(GuiRoot, 'node_modules/**'),
+            path.resolve(VmRoot, 'node_modules/**'),
         ],
         chokidar: {
             usePolling: true
@@ -271,8 +271,8 @@ const watchOptions = {
         ],
         exclude: [
             path.resolve('./node_modules/**'),
-            path.resolve('../scratch-gui/node_modules/**'),
-            path.resolve('../scratch-vm/node_modules/**'),
+            path.resolve(GuiRoot, 'node_modules/**'),
+            path.resolve(VmRoot, 'node_modules/**'),
         ],
         chokidar: {
             usePolling: true
