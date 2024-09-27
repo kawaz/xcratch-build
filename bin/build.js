@@ -36,12 +36,12 @@ const optionDefinitions = [
     {
         name: 'block',
         type: String,
-        defaultValue: path.resolve(process.cwd(), './src/vm/extensions/block')
+        defaultValue: path.resolve('./src/vm/extensions/block')
     },
     {
         name: 'entry',
         type: String,
-        defaultValue: path.resolve(process.cwd(), './src/gui/lib/libraries/extensions/entry')
+        defaultValue: path.resolve('./src/gui/lib/libraries/extensions/entry')
     },
     {
         name: 'vm',
@@ -50,12 +50,12 @@ const optionDefinitions = [
     {
         name: 'gui',
         type:String,
-        defaultValue: path.resolve(process.cwd(), '../scratch-gui')
+        defaultValue: path.resolve('../scratch-gui')
     },
     {
         name: 'output',
         type:String,
-        defaultValue: path.resolve(process.cwd(), './dist')
+        defaultValue: path.resolve('./dist')
     },
     {
         name: 'moduleDirectories',
@@ -89,15 +89,15 @@ if (!options['module']) {
     throw('set --module <module name>');
 }
 const moduleName = options['module'];
-const extSrcDir = path.resolve(process.cwd(), options['block']);
-const entrySrcDir = path.resolve(process.cwd(), options['entry']);
-const GuiRoot = path.resolve(process.cwd(), options['gui']);
+const extSrcDir = path.resolve(options['block']);
+const entrySrcDir = path.resolve(options['entry']);
+const GuiRoot = path.resolve(options['gui']);
 console.log(`gui = ${GuiRoot}`);
 const VmRoot = options['vm'] ?
-    path.resolve(process.cwd(), options['vm']):
+    path.resolve(options['vm']):
     path.resolve(GuiRoot, './node_modules/scratch-vm');
 console.log(`vm = ${VmRoot}`);
-const outputDir = path.resolve(process.cwd(), options['output']);
+const outputDir = path.resolve(options['output']);
 console.log(`output = ${outputDir}`);
 fs.emptyDirSync(outputDir);
 let sourceMap = options['sourceMap'];
@@ -128,7 +128,7 @@ const rollupOptions = {
                 browser: true, 
                 preferBuiltins: true, 
                 modulePaths: [
-                    path.resolve(process.cwd(), './node_modules'),
+                    path.resolve('./node_modules'),
                     path.resolve(__dirname, '../node_modules'),
                 ],
                 moduleDirectories: [
@@ -178,9 +178,9 @@ if (options['watch']) {
             blockFile
         ],
         exclude: [
-            path.resolve(process.cwd(), './node_modules/**'),
-            path.resolve(process.cwd(), '../scratch-gui/node_modules/**'),
-            path.resolve(process.cwd(), '../scratch-vm/node_modules/**'),
+            path.resolve('./node_modules/**'),
+            path.resolve('../scratch-gui/node_modules/**'),
+            path.resolve('../scratch-vm/node_modules/**'),
         ],
         chokidar: {
             usePolling: true
@@ -270,9 +270,9 @@ const watchOptions = {
             blockFile
         ],
         exclude: [
-            path.resolve(process.cwd(), './node_modules/**'),
-            path.resolve(process.cwd(), '../scratch-gui/node_modules/**'),
-            path.resolve(process.cwd(), '../scratch-vm/node_modules/**'),
+            path.resolve('./node_modules/**'),
+            path.resolve('../scratch-gui/node_modules/**'),
+            path.resolve('../scratch-vm/node_modules/**'),
         ],
         chokidar: {
             usePolling: true
